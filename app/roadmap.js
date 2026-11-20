@@ -1,69 +1,71 @@
-// Roadmap to the platinum: six phases in order, about 200 hours in all.
-// A phase is a rule, not a list: each phase names the trophies it covers by
-// testing the trophy itself (story flag, missable flag, kind, confirmed),
-// so a trophy can only land in one phase and a miscounted list shows up as
-// an empty phase or a trophy with no phase instead of a silent omission.
-// The platinum itself is the last phase's payoff: it pops with 100%
-// Completion, so it sits in phase 6, not with the story trophies.
-export const ROADMAP_PHASES = [
+// The road to the platinum, in six phases. Hours are hunter estimates that
+// add up to about 200 for the whole list; a phase's trophies come from the
+// phase field in app/data/trophies.json, so the counts can never drift.
+
+export const PHASES = [
   {
-    key: 'story',
-    title: 'Phase 1 — Play the story',
-    hours: 30,
-    text: 'Play the story start to finish before grinding anything else. The twelve story trophies land on their own as the chapters fall, and finishing the story opens the whole map, the gangs and the activities that everything else on this list needs.',
-    test: (t) => t.story === true,
+    id: 0,
+    title: "Play the story",
+    hours: 25,
+    blurb:
+      "Chapters 1 to 5, start to credits. Every chapter trophy and every named-mission trophy pops on its own as the plot reaches it. Do not detour yet — side content waits in free roam.",
   },
   {
-    key: 'missable',
-    title: 'Phase 2 — The one missable, first',
-    hours: 2,
-    text: 'One meditation spot sits at Jason\u2019s house in Chapter 1, and it is the only one you can lose. Meditate there before the story moves on, then pick up the other seventeen spots whenever you pass one — none of the rest are ever locked away.',
-    test: (t) => t.missable === true,
+    id: 1,
+    title: "The one missable, now",
+    hours: 1,
+    blurb:
+      "A single trophy, a single habit: meditate at Jason's house the first chance you get in Chapter 1, then keep meditating at every spot you pass. It is the only trophy the guides flag as possibly missable.",
   },
   {
-    key: 'side',
-    title: 'Phase 3 — Strangers & side missions',
+    id: 2,
+    title: "Stranger strands",
     hours: 15,
-    text: 'Work the stranger strands as you find them: eight strands for the Strangers & Freaks trophy, plus the named characters\u2019 final missions. It all counts toward 100% Completion too, so none of this time is wasted.',
-    test: (t) => t.kind === 'side',
+    blurb:
+      "The people of Leonida: Andy, Kenton, Billy, Randy, Tyrone and Bret, plus the eight-strand count. Take every stranger marker you pass and finish each strand to its final mission.",
   },
   {
-    key: 'activities',
-    title: 'Phase 4 — Activities, races & skills',
-    hours: 40,
-    text: 'The long activity grind, in free roam: stunts, gold in every Shooting Range challenge, drone races at the Top Fun venues, race wins, the fishing challenge, bowling, one arcade game, the challenge count and maxing strength with both Jason and Lucia.',
-    test: (t) => t.kind === 'activities' && !t.missable && t.confirmed,
+    id: 3,
+    title: "Activities",
+    hours: 35,
+    blurb:
+      "The taster tour and the grinds: 250 stunts, 42 gold shooting-range challenges, 14 drone-race venues, 20 different race wins, 50 challenges, fishing with Cal, the arcade and the bowling alley.",
   },
   {
-    key: 'crime',
-    title: 'Phase 5 — Crime & money',
-    hours: 38,
-    text: 'Crime pays, slowly: bank vaults, armored trucks, shop robberies with your partner, a jewelry store robbed unseen, a stolen tank, one illegal operation per gang — and the money trophies that ride along with them, laundering marked bills and spending across the shops.',
-    test: (t) => (t.kind === 'crime' || t.kind === 'money') && t.confirmed,
+    id: 4,
+    title: "Crime and money",
+    hours: 45,
+    blurb:
+      "The wanted-level work, the robberies and the cash: five bank vaults, armored trucks, shop chains with your partner, gang operations, 500 Criminal Profile actions, and the money trophies that ride along.",
   },
   {
-    key: 'cleanup',
-    title: 'Phase 6 — Collectibles, the unconfirmed five & 100%',
-    hours: 75,
-    text: 'Cleanup. Card sets, WAiNK spots, vehicle discovery, every region of Leonida explored, garages bought and vehicles registered — plus the five trophies whose exact triggers players have not pinned down yet, once they do. A Long Road (100% Completion) pops last, and the Platinum pops with it.',
-    test: (t) =>
-      t.kind === 'collectibles' ||
-      !t.confirmed ||
-      t.id === 14 ||
-      t.grade === 'platinum',
+    id: 5,
+    title: "Collectibles and cleanup",
+    hours: 79,
+    blurb:
+      "The long tail: card sets, 100 WAiNK locations, 100 vehicles, every corner of the map, the five still-unconfirmed trophies to check back on — and 100% Completion, then the platinum itself.",
   },
 ];
 
-// Every trophy in the list must match exactly one phase, in order: the
-// first phase whose test passes claims it. main.ts checks this at hand-in.
-export function phaseOf(trophy) {
-  for (let i = 0; i < ROADMAP_PHASES.length; i++) {
-    if (ROADMAP_PHASES[i].test(trophy)) return i;
-  }
-  return -1;
+export const TOTAL_HOURS = PHASES.reduce((sum, phase) => sum + phase.hours, 0);
+
+export function trophiesInPhase(trophies, phaseId) {
+  return trophies.filter((trophy) => trophy.phase === phaseId);
 }
 
-export const ROADMAP_TOTAL_HOURS = ROADMAP_PHASES.reduce(
-  (sum, phase) => sum + phase.hours,
-  0,
-);
+export function phaseProgress(trophies, earned, phaseId) {
+  const inPhase = trophiesInPhase(trophies, phaseId);
+  const done = inPhase.filter((trophy) => earned.has(trophy.id)).length;
+  return { total: inPhase.length, done };
+}
+
+export function hoursLeft(trophies, earned) {
+  // A phase counts as partly done in proportion to its earned trophies.
+  let left = 0;
+  for (const phase of PHASES) {
+    const { total, done } = phaseProgress(trophies, earned, phase.id);
+    if (total === 0) continue;
+    left += phase.hours * (1 - done / total);
+  }
+  return Math.round(left);
+}
