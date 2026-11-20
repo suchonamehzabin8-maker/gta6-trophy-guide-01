@@ -1,1 +1,34 @@
-[{"file":"1-checklist.jpg","path":"/?demo=1","viewport":{"height":800,"width":1280}},{"file":"2-guide.jpg","path":"/?demo=1&trophy=28","viewport":{"height":800,"width":1280}},{"file":"3-roadmap.jpg","path":"/?view=roadmap&demo=1","viewport":{"height":800,"width":1280}},{"file":"4-missables.jpg","path":"/?view=missables&demo=1","viewport":{"height":800,"width":1280}}]
+[
+ {
+  "file": "1-checklist.jpg",
+  "path": "/app/?shot=checklist",
+  "viewport": {
+   "height": 800,
+   "width": 1280
+  }
+ },
+ {
+  "file": "2-guide.jpg",
+  "path": "/app/?shot=guide",
+  "viewport": {
+   "height": 800,
+   "width": 1280
+  }
+ },
+ {
+  "file": "3-roadmap.jpg",
+  "path": "/app/?shot=roadmap",
+  "viewport": {
+   "height": 800,
+   "width": 1280
+  }
+ },
+ {
+  "file": "4-missables.jpg",
+  "path": "/app/?shot=missables",
+  "viewport": {
+   "height": 800,
+   "width": 1280
+  }
+ }
+]
