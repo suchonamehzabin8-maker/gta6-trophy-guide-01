@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leonida Trophy Guide — GTA VI, all 55 trophies</title>
+<meta name="description" content="An offline guide and tracker for every PlayStation 5 trophy in Grand Theft Auto VI: checklist, roadmap to the platinum, missables and cited guides.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="masthead">
+  <div class="masthead-text">
+    <p class="kicker">Grand Theft Auto VI · PlayStation 5</p>
+    <h1>Leonida Trophy Guide</h1>
+    <p class="lede">Every one of the 55 official trophies — what to do, in what order, what can be missed, and where each fact comes from. Your progress is saved in this browser, works offline, and exports to a file.</p>
+  </div>
+  <div class="progress-ring" id="progress-ring" role="img" aria-label="Trophy progress">
+    <svg viewBox="0 0 120 120" width="120" height="120" aria-hidden="true">
+      <circle class="ring-track" cx="60" cy="60" r="52"></circle>
+      <circle class="ring-fill" id="ring-fill" cx="60" cy="60" r="52"></circle>
+    </svg>
+    <div class="ring-label"><strong id="ring-count">0 / 55</strong><span>earned</span></div>
+  </div>
+</header>
+
+<section class="stats" id="stats" aria-label="Progress by grade and kind"></section>
+
+<nav class="tabs" aria-label="Guide sections">
+  <button type="button" class="tab active" data-view="checklist">Checklist</button>
+  <button type="button" class="tab" data-view="roadmap">Roadmap</button>
+  <button type="button" class="tab" data-view="missables">Missables <span class="tab-badge" id="missable-badge">1</span></button>
+  <button type="button" class="tab" data-view="sources">Sources</button>
+</nav>
+
+<main>
+  <section id="view-checklist" class="view">
+    <div class="toolbar" role="search">
+      <label class="search-box">Search <input id="search" type="search" placeholder="Trophy name, mission, keyword…" autocomplete="off"></label>
+      <label>Kind
+        <select id="kind">
+          <option value="all">All kinds</option>
+          <option value="story">Story</option>
+          <option value="missable">Missable</option>
+          <option value="side">Strangers &amp; side</option>
+          <option value="activities">Activities</option>
+          <option value="collectibles">Collectibles</option>
+          <option value="crime">Crime</option>
+          <option value="money">Money</option>
+        </select>
+      </label>
+      <label>Grade
+        <select id="grade">
+          <option value="all">All grades</option>
+          <option value="platinum">Platinum</option>
+          <option value="gold">Gold</option>
+          <option value="silver">Silver</option>
+          <option value="bronze">Bronze</option>
+        </select>
+      </label>
+      <label>Status
+        <select id="status">
+          <option value="all">All</option>
+          <option value="earned">Earned</option>
+          <option value="remaining">Still to earn</option>
+        </select>
+      </label>
+      <label>Chapter
+        <select id="chapter">
+          <option value="all">All chapters</option>
+          <option value="1">Chapter 1</option>
+          <option value="2">Chapter 2</option>
+          <option value="3">Chapter 3</option>
+          <option value="4">Chapter 4</option>
+          <option value="5">Chapter 5</option>
+        </select>
+      </label>
+      <label>Sort
+        <select id="sort">
+          <option value="roadmap">Roadmap order</option>
+          <option value="name">Name A–Z</option>
+          <option value="grade">Grade, best first</option>
+        </select>
+      </label>
+      <label class="toggle"><input id="spoilers" type="checkbox"> Hide story spoilers</label>
+    </div>
+
+    <p class="hint" id="next-up" aria-live="polite"></p>
+
+    <div class="layout">
+      <div class="list-wrap">
+        <p class="count-line" id="count-line"></p>
+        <ul class="trophy-list" id="trophy-list"></ul>
+      </div>
+      <aside class="detail" id="detail" aria-live="polite">
+        <p class="detail-empty">Pick a trophy on the left to see its full guide, steps, and source.</p>
+      </aside>
+    </div>
+
+    <section class="plan-panel" aria-label="Tonight's plan">
+      <div class="plan-head">
+        <h2>Tonight's plan</h2>
+        <label>Plan size
+          <select id="plan-size">
+            <option value="3">3 trophies</option>
+            <option value="5" selected>5 trophies</option>
+            <option value="8">8 trophies</option>
+          </select>
+        </label>
+      </div>
+      <p class="plan-hours" id="plan-hours"></p>
+      <div id="plan-list"></div>
+      <h3>Recently earned</h3>
+      <ul class="recent-list" id="recent-list"></ul>
+    </section>
+  </section>
+
+  <section id="view-roadmap" class="view hidden">
+    <h2>Roadmap to the platinum</h2>
+    <p>Six phases, in order, adding up to roughly 200 hours. Do the story first, grab the one missable meditation in Chapter 1, and leave the long grinds — shooting range golds, collectibles, 100% — for free roam after the credits.</p>
+    <div id="roadmap"></div>
+  </section>
+
+  <section id="view-missables" class="view hidden">
+    <h2>Missables</h2>
+    <p>Free roam stays open after the story, so almost nothing in this list can be missed. There is exactly one trophy the guides flag as possibly missable — and five more whose exact trigger is still unconfirmed, so this guide guesses nothing about them.</p>
+    <div id="missables"></div>
+  </section>
+
+  <section id="view-sources" class="view hidden">
+    <h2>Sources</h2>
+    <p>Every guide in this entry is written for it, in its own words, and cites where its facts come from. The trophy names, descriptions and grades are the official ones as PlayStation publishes them. No guide text is copied from a source — a source is cited, never copied.</p>
+    <div id="sources"></div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="foot-actions">
+    <button id="export" type="button">Export progress (.json)</button>
+    <label class="import-btn">Import progress <input id="import" type="file" accept="application/json,.json"></label>
+    <button id="reset" type="button">Reset progress</button>
+  </div>
+  <p class="foot-note">Progress is stored only in this browser (localStorage) — nothing leaves your machine. Export the file to carry it to another browser. An unofficial fan guide: not affiliated with Rockstar Games, Sony, or PlayStation. Trophy list checked 20 November 2026.</p>
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
